@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "supernote-viewer"
+version = "0.1.0"
+description = ""
+authors = ["Michael Allan <michael@intrinseca.me.uk>"]
+readme = "README.md"
+packages = [{ include = "supernote_viewer" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiohttp = "^3.8.5"
+pillow = "^10.0.1"
+async-tkinter-loop = "^0.9.1"
+toml = "^0.10.2"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.0.290"
+black = "^23.9.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
