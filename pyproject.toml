@@ -15,6 +15,7 @@ aiohttp = "^3.8.5"
 pillow = "^10.0.1"
 async-tkinter-loop = "^0.9.1"
 toml = "^0.10.2"
+platformdirs = "^4.2.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.2.1"

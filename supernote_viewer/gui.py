@@ -1,5 +1,6 @@
 import asyncio
 import ctypes
+import pathlib
 import tkinter as tk
 from io import BytesIO
 
@@ -61,7 +62,9 @@ def run_gui():
     root.title("Supernote Screenshare Viewer")
     root.configure(background="black")
 
-    ico = Image.open("supernote-icon.png")
+    module_path = pathlib.Path(__file__).parent
+
+    ico = Image.open(module_path / "supernote-icon.png")
     photo = ImageTk.PhotoImage(ico)
     root.wm_iconphoto(False, photo)
 

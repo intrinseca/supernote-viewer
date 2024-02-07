@@ -4,7 +4,7 @@ Python application to reliably display the screenshare stream from a Supernote d
 
 ## Configuration
 
-Create a `settings.toml` file in your working directory, containing the supernote's IP address.
+Create a `settings.toml` file in your profile config directory (on windows, `%LOCALAPPDATA%`), with the address of your supernote:
 
 ```
 supernote_address = "192.0.2.1"
