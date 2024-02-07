@@ -6,6 +6,7 @@ from io import BytesIO
 
 import aiohttp
 from async_tkinter_loop import async_mainloop
+from halo import Halo
 from PIL import Image, ImageTk
 
 from . import config
@@ -18,7 +19,6 @@ async def stream_from(resp):
         try:
             part = await reader.next()
             partdata = await part.read(decode=False)
-            print("Got part")
         except (
             asyncio.exceptions.TimeoutError,
             aiohttp.client_exceptions.ClientPayloadError,
@@ -37,12 +37,16 @@ def run_gui():
         timeout = aiohttp.ClientTimeout(connect=2, total=60)
 
         async with aiohttp.ClientSession(timeout=timeout) as session:
+            spinner = Halo(spinner="dots", text="Connecting...", color="blue")
+            spinner.start()
+
             while True:
-                print("Connecting...")
                 try:
                     async with session.get(
                         f"http://{config['supernote_address']}:8080/screencast.mjpeg"
                     ) as resp:
+                        spinner.color = "green"
+                        spinner.start("Streaming...")
                         async for image in stream_from(resp):
                             label.update()
                             image.thumbnail((label.winfo_width(), label.winfo_height()))
@@ -52,7 +56,8 @@ def run_gui():
 
                 except aiohttp.client_exceptions.ServerTimeoutError:
                     label.config(text="Timed out...", image="")
-                    continue
+                    spinner.color = "red"
+                    spinner.text = "Timed out, retrying..."
 
     myappid = "uk.me.intrinseca.supernote-viewer"
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
