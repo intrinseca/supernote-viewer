@@ -6,6 +6,9 @@ authors = ["Michael Allan <michael@intrinseca.me.uk>"]
 readme = "README.md"
 packages = [{ include = "supernote_viewer" }]
 
+[tool.poetry.scripts]
+supernote_viewer = "supernote_viewer.gui:run_gui"
+
 [tool.poetry.dependencies]
 python = "^3.10"
 aiohttp = "^3.8.5"
@@ -14,8 +17,7 @@ async-tkinter-loop = "^0.9.1"
 toml = "^0.10.2"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.0.290"
-black = "^23.9.1"
+ruff = "^0.2.1"
 
 [build-system]
 requires = ["poetry-core"]
