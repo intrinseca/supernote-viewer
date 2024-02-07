@@ -10,7 +10,7 @@ packages = [{ include = "supernote_viewer" }]
 supernote_viewer = "supernote_viewer.gui:run_gui"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.10,<3.13"
 aiohttp = "^3.8.5"
 pillow = "^10.0.1"
 async-tkinter-loop = "^0.9.1"
@@ -20,6 +20,7 @@ halo = "^0.0.31"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.2.1"
+pyinstaller = "^6.3.0"
 
 [build-system]
 requires = ["poetry-core"]
