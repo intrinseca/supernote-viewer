@@ -11,32 +11,26 @@ from PIL import Image, ImageTk
 from . import config
 
 
+async def stream_from(resp):
+    reader = aiohttp.MultipartReader.from_response(resp)
+
+    while True:
+        try:
+            part = await reader.next()
+            partdata = await part.read(decode=False)
+            print("Got part")
+        except (
+            asyncio.exceptions.TimeoutError,
+            aiohttp.client_exceptions.ClientPayloadError,
+        ):
+            return
+
+        partdatastream = BytesIO(partdata)
+
+        yield Image.open(partdatastream)
+
+
 def run_gui():
-    async def stream_from(resp):
-        reader = aiohttp.MultipartReader.from_response(resp)
-        while True:
-            try:
-                part = await reader.next()
-                partdata = await part.read(decode=False)
-                print("Got part")
-            except (
-                asyncio.exceptions.TimeoutError,
-                aiohttp.client_exceptions.ClientPayloadError,
-            ):
-                label.config(text="Timed out...", image="")
-                break
-
-            partdatastream = BytesIO(partdata)
-
-            pil_image = Image.open(partdatastream)
-
-            label.update()
-            pil_image.thumbnail((label.winfo_width(), label.winfo_height()))
-
-            image = ImageTk.PhotoImage(pil_image)
-            label.image = image
-            label.config(image=image, text="")
-
     async def load_image():
         label.config(text="Loading...", image="")
 
@@ -49,7 +43,13 @@ def run_gui():
                     async with session.get(
                         f"http://{config['supernote_address']}:8080/screencast.mjpeg"
                     ) as resp:
-                        await stream_from(resp)
+                        async for image in stream_from(resp):
+                            label.update()
+                            image.thumbnail((label.winfo_width(), label.winfo_height()))
+
+                            photoimage = ImageTk.PhotoImage(image)
+                            label.config(image=photoimage, text="")
+
                 except aiohttp.client_exceptions.ServerTimeoutError:
                     label.config(text="Timed out...", image="")
                     continue
