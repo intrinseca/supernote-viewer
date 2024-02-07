@@ -67,6 +67,14 @@ def run_gui():
     root.title("Supernote Screenshare Viewer")
     root.configure(background="black")
 
+    root.bind(
+        "<F11>",
+        lambda event: root.attributes(
+            "-fullscreen", not root.attributes("-fullscreen")
+        ),
+    )
+    root.bind("<Escape>", lambda event: root.attributes("-fullscreen", False))
+
     module_path = pathlib.Path(__file__).parent
 
     ico = Image.open(module_path / "supernote-icon.png")
@@ -74,6 +82,7 @@ def run_gui():
     root.wm_iconphoto(False, photo)
 
     label = tk.Label(root)
+    label.config(background="black")
     label.pack(expand=1, fill=tk.BOTH)
 
     asyncio.get_event_loop_policy().get_event_loop().create_task(load_image())

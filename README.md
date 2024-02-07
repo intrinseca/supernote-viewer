@@ -9,3 +9,7 @@ Create a `settings.toml` file in your profile config directory (on windows, `%LO
 ```
 supernote_address = "192.0.2.1"
 ```
+
+## Fullscreen Mode
+
+Press `F11` to toggle fullscreen mode, and `ESC` to exit fullscreen mode.
