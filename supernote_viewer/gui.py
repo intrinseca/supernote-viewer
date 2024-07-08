@@ -10,6 +10,7 @@ from halo import Halo
 from PIL import Image, ImageTk
 
 from . import config
+from ._version import __version__
 
 
 async def stream_from(resp):
@@ -69,7 +70,7 @@ def run_gui():
 
     root = tk.Tk()
     root.geometry("702x936")  # 50% of native resolution
-    root.title("Supernote Screenshare Viewer")
+    root.title(f"Supernote Screenshare Viewer v{__version__}")
     root.configure(background="black")
 
     root.bind(
