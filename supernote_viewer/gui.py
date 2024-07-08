@@ -63,7 +63,7 @@ def run_gui():
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
     root = tk.Tk()
-    root.geometry("800x640")
+    root.geometry("702x936")  # 50% of native resolution
     root.title("Supernote Screenshare Viewer")
     root.configure(background="black")
 
