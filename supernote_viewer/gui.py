@@ -59,6 +59,11 @@ def run_gui():
                     spinner.color = "red"
                     spinner.text = "Timed out, retrying..."
 
+                except aiohttp.client_exceptions.ClientConnectorError:
+                    label.config(text="Connection refused...", image="")
+                    spinner.color = "red"
+                    spinner.text = "Connection refused, retrying..."
+
     myappid = "uk.me.intrinseca.supernote-viewer"
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
@@ -82,7 +87,7 @@ def run_gui():
     root.wm_iconphoto(False, photo)
 
     label = tk.Label(root)
-    label.config(background="black")
+    label.config(background="black", foreground="white")
     label.pack(expand=1, fill=tk.BOTH)
 
     asyncio.get_event_loop_policy().get_event_loop().create_task(load_image())
